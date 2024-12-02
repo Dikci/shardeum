@@ -548,7 +548,7 @@ while :; do
   SHMEXT=${SHMEXT:-$SHMEXT_DEFAULT}
   [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
   if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
-    SHMEXT=${SHMEXT:-9116}
+    SHMEXT=${SHMEXT:-1025}
   else
     echo "Port out of range, try again"
   fi
@@ -556,7 +556,7 @@ while :; do
   SHMINT=${SHMINT:-$SHMINT_DEFAULT}
   [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
   if ((SHMINT >= 1025 && SHMINT <= 65536)); then
-    SHMINT=${SHMINT:-65166}
+    SHMINT=${SHMINT:-1025}
     break
   else
     echo "Port out of range, try again"
@@ -653,12 +653,12 @@ EOF
 cd ${NODEHOME}
 if [[ "$(uname)" == "Darwin" ]]; then
   sed "s/- '8116:8116'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
-  sed -i '' "s/- '9116-9010:9116-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
-  sed -i '' "s/- '65166-10010:65166-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+  sed -i '' "s/- '9116-9116:9116-9116'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
+  sed -i '' "s/- '65166-65166:65166-65166'/- '$SHMINT:$SHMINT'/" docker-compose.yml
 else
   sed "s/- '8116:8116'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
-  sed -i "s/- '9116-9010:9116-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
-  sed -i "s/- '65166-10010:65166-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+  sed -i "s/- '9116-9116:9116-9116'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
+  sed -i "s/- '65166-65166:65166-65166'/- '$SHMINT:$SHMINT'/" docker-compose.yml
 fi
 ./docker-up.sh
 
